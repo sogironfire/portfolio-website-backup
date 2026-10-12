@@ -349,8 +349,8 @@ ul {
     background: none;
     border: none;
     cursor: pointer;
-    width: 30px;
-    height: 24px;
+    width: 44px;
+    height: 44px;
     position: relative;
 }
 
@@ -368,8 +368,10 @@ ul {
 }
 
 .hamburger {
+    width: 30px;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
 }
 
 .hamburger::before {
@@ -1090,6 +1092,7 @@ ul {
     display: inline-block;
     margin-top: 1rem;
     padding: 0.55rem 1.3rem;
+    min-height: 44px;
     font-size: 0.82rem;
     font-weight: 600;
     font-family: var(--ff-body);
@@ -1289,6 +1292,11 @@ ul {
 }
 
 .footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
     font-size: 1.35rem;
     color: var(--clr-text-muted);
     transition: color var(--transition), transform var(--transition);
@@ -1437,6 +1445,24 @@ ul {
    RESPONSIVE
    ============================================================ */
 
+/* Keep the desktop hero balanced as its two columns narrow. */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-grid {
+        gap: 2rem;
+    }
+
+    .hero-image-wrapper {
+        width: clamp(220px, 30vw, 300px);
+        height: clamp(220px, 30vw, 300px);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 840px) {
+    .about-skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* Tablet & below */
 @media (max-width: 768px) {
     :root {
@@ -1453,8 +1479,9 @@ ul {
         position: fixed;
         top: var(--nav-height);
         right: -100%;
-        width: 280px;
+        width: min(280px, 100vw);
         height: calc(100vh - var(--nav-height));
+        height: calc(100dvh - var(--nav-height));
         background: var(--clr-bg-alt);
         flex-direction: column;
         padding: 2rem 1.5rem;
@@ -1464,6 +1491,8 @@ ul {
         box-shadow: -8px 0 30px rgba(0, 0, 0, 0.3);
         z-index: 900;
         overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
     }
 
     .nav-menu.open {
