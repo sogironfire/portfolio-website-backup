@@ -340,107 +340,13 @@ document.addEventListener("DOMContentLoaded", () => {
     updateHeader();
     updateActiveNav();
 
-    // ── Logo Click — meow + refresh ─────────────────────────
+    // Logo click — navigate home without a delay or sound.
     const logoLink = document.querySelector(".logo");
     if (logoLink) {
         logoLink.addEventListener("click", (e) => {
             e.preventDefault();
-            playMeow();
-            setTimeout(() => {
-                window.location.href = "index.html";
-            }, 1500);
+            window.location.href = "index.html";
         });
-    }
-
-    function playMeow() {
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const t = ctx.currentTime;
-        const duration = 1.2;
-        const master = ctx.createGain();
-        master.gain.setValueAtTime(0.4, t);
-        master.connect(ctx.destination);
-
-        // Layer 1: Primary "meee-aaaw" voice
-        const o1 = ctx.createOscillator();
-        const g1 = ctx.createGain();
-        o1.type = "sawtooth";
-        // "M" onset → "EE" rise → "AA" peak → "OW" fall
-        o1.frequency.setValueAtTime(250, t);
-        o1.frequency.linearRampToValueAtTime(700, t + 0.12);
-        o1.frequency.linearRampToValueAtTime(850, t + 0.3);
-        o1.frequency.setValueAtTime(850, t + 0.45);
-        o1.frequency.linearRampToValueAtTime(600, t + 0.7);
-        o1.frequency.linearRampToValueAtTime(350, t + 1.0);
-        o1.frequency.linearRampToValueAtTime(180, t + duration);
-        // Envelope
-        g1.gain.setValueAtTime(0, t);
-        g1.gain.linearRampToValueAtTime(0.22, t + 0.06);
-        g1.gain.linearRampToValueAtTime(0.3, t + 0.3);
-        g1.gain.setValueAtTime(0.3, t + 0.5);
-        g1.gain.linearRampToValueAtTime(0.15, t + 0.85);
-        g1.gain.linearRampToValueAtTime(0.001, t + duration);
-
-        // Layer 2: Harmonic overtone for nasal "cat" quality
-        const o2 = ctx.createOscillator();
-        const g2 = ctx.createGain();
-        o2.type = "triangle";
-        o2.frequency.setValueAtTime(500, t);
-        o2.frequency.linearRampToValueAtTime(1400, t + 0.12);
-        o2.frequency.linearRampToValueAtTime(1700, t + 0.3);
-        o2.frequency.setValueAtTime(1700, t + 0.45);
-        o2.frequency.linearRampToValueAtTime(1200, t + 0.7);
-        o2.frequency.linearRampToValueAtTime(700, t + 1.0);
-        o2.frequency.linearRampToValueAtTime(360, t + duration);
-        g2.gain.setValueAtTime(0, t);
-        g2.gain.linearRampToValueAtTime(0.08, t + 0.1);
-        g2.gain.linearRampToValueAtTime(0.12, t + 0.35);
-        g2.gain.linearRampToValueAtTime(0.04, t + 0.9);
-        g2.gain.linearRampToValueAtTime(0.001, t + duration);
-
-        // Layer 3: Breathy noise for realism
-        const bufferSize = ctx.sampleRate * duration;
-        const noiseBuffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = noiseBuffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = (Math.random() * 2 - 1) * 0.5;
-        }
-        const noise = ctx.createBufferSource();
-        noise.buffer = noiseBuffer;
-        const noiseGain = ctx.createGain();
-        const noiseFilter = ctx.createBiquadFilter();
-        noiseFilter.type = "bandpass";
-        noiseFilter.frequency.setValueAtTime(800, t);
-        noiseFilter.frequency.linearRampToValueAtTime(2000, t + 0.3);
-        noiseFilter.frequency.linearRampToValueAtTime(1000, t + 0.8);
-        noiseFilter.frequency.linearRampToValueAtTime(400, t + duration);
-        noiseFilter.Q.value = 3;
-        noiseGain.gain.setValueAtTime(0, t);
-        noiseGain.gain.linearRampToValueAtTime(0.04, t + 0.08);
-        noiseGain.gain.linearRampToValueAtTime(0.02, t + 0.5);
-        noiseGain.gain.linearRampToValueAtTime(0.001, t + duration);
-
-        // Layer 4: Vibrato for liveliness
-        const vib = ctx.createOscillator();
-        const vibGain = ctx.createGain();
-        vib.frequency.value = 7;
-        vibGain.gain.setValueAtTime(0, t);
-        vibGain.gain.linearRampToValueAtTime(15, t + 0.3);
-        vibGain.gain.setValueAtTime(15, t + 0.7);
-        vibGain.gain.linearRampToValueAtTime(25, t + duration);
-        vib.connect(vibGain);
-        vibGain.connect(o1.frequency);
-        vibGain.connect(o2.frequency);
-
-        // Connect everything
-        o1.connect(g1); g1.connect(master);
-        o2.connect(g2); g2.connect(master);
-        noise.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(master);
-
-        // Start & stop
-        [o1, o2, noise, vib].forEach(n => n.start(t));
-        [o1, o2, noise, vib].forEach(n => n.stop(t + duration + 0.05));
-
-        o1.onended = () => ctx.close();
     }
 
 });
