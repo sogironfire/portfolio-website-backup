@@ -1219,61 +1219,9 @@ ul {
     padding: 2rem 0;
     border-top: 1px solid var(--clr-border);
     background: var(--clr-bg-alt);
-    position: relative;
-    overflow: hidden;
-}
-
-/* ── Footer running cats ── */
-.footer-cats {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.footer-cat {
-    position: absolute;
-    height: 28px;
-    width: auto;
-    bottom: 6px;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
-}
-
-.footer-cat-1 {
-    animation: footerCatRun1 6s linear infinite;
-}
-
-.footer-cat-2 {
-    animation: footerCatRun2 6s linear infinite;
-    height: 42px;
-}
-
-@keyframes footerCatRun1 {
-    0% {
-        left: -60px;
-    }
-
-    100% {
-        left: calc(100% + 60px);
-    }
-}
-
-@keyframes footerCatRun2 {
-    0% {
-        left: -120px;
-    }
-
-    100% {
-        left: calc(100% + 0px);
-    }
 }
 
 .footer-grid {
-    position: relative;
-    z-index: 1;
     display: flex;
     align-items: center;
     justify-content: space-between;
