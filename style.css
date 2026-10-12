@@ -243,7 +243,7 @@ ul {
     top: -16px;
     left: 0;
     filter: drop-shadow(0 1px 3px rgba(249, 115, 22, 0.4));
-    animation: catRun 3s linear infinite;
+    animation: catRun 5.5s linear infinite;
     z-index: 2;
     pointer-events: none;
 }
@@ -278,7 +278,7 @@ ul {
 
 /* Subtle bounce while running */
 .logo-cat {
-    animation: catRun 3s linear infinite, catBounce 0.3s ease-in-out infinite;
+    animation: catRun 5.5s linear infinite, catBounce 0.55s ease-in-out infinite;
 }
 
 @keyframes catBounce {
@@ -294,7 +294,7 @@ ul {
 }
 
 .logo:hover .logo-cat {
-    animation-duration: 1.8s, 0.2s;
+    animation-duration: 4.8s, 0.5s;
 }
 
 .logo-text {
